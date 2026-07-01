@@ -1,4 +1,8 @@
-// Daily Verse — New Tab. Pure client-side, chrome.storage.sync. No network.
+// Daily Verse — New Tab. Pure client-side, storage.sync. No network.
+
+// Cross-browser: Firefox exposes promise-based `browser.*`; Chrome uses `chrome.*`
+// (promise-based for storage in MV3). This shim works in both.
+const api = globalThis.browser ?? globalThis.chrome;
 
 const $ = (id) => document.getElementById(id);
 const VERSES = (window.VERSES || [])
@@ -30,7 +34,7 @@ function toast(msg) {
 }
 
 async function loadState() {
-  const data = await chrome.storage.sync.get(Object.keys(state));
+  const data = await api.storage.sync.get(Object.keys(state));
   Object.assign(state, {
     name: data.name || "",
     theme: data.theme || "auto",
@@ -45,7 +49,7 @@ async function loadState() {
 function persist(keys) {
   const out = {};
   for (const k of keys) out[k] = state[k];
-  return chrome.storage.sync.set(out);
+  return api.storage.sync.set(out);
 }
 
 /* ---------- theme ---------- */
