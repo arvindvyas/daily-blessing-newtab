@@ -1,0 +1,242 @@
+:root {
+  --bg1: #1b1033;
+  --bg2: #2a1a4a;
+  --bg3: #0e1a3a;
+  --fg: #f4f1fb;
+  --muted: #b9b2d6;
+  --card: rgba(255, 255, 255, 0.06);
+  --card-brd: rgba(255, 255, 255, 0.12);
+  --accent: #a78bfa;
+  --accent-ink: #1b1033;
+}
+
+[data-theme="light"] {
+  --bg1: #eef2ff;
+  --bg2: #faf5ff;
+  --bg3: #e0e7ff;
+  --fg: #1f2233;
+  --muted: #5b5570;
+  --card: rgba(0, 0, 0, 0.04);
+  --card-brd: rgba(0, 0, 0, 0.10);
+  --accent: #7c3aed;
+  --accent-ink: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  color: var(--fg);
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1200px 700px at 18% 12%, var(--bg2), transparent 60%),
+    radial-gradient(1000px 800px at 85% 85%, var(--bg3), transparent 55%),
+    linear-gradient(135deg, var(--bg1), var(--bg3));
+}
+
+/* top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 30px 0;
+}
+.clock { font-size: 22px; font-weight: 600; letter-spacing: 0.5px; }
+.greeting { color: var(--muted); font-size: 15px; flex: 1; }
+.iconbtn {
+  background: var(--card);
+  border: 1px solid var(--card-brd);
+  color: var(--fg);
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  transition: background 0.15s, transform 0.1s;
+}
+.iconbtn:hover { background: rgba(167,139,250,0.18); }
+.iconbtn:active { transform: scale(0.95); }
+
+/* center stage */
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 26px;
+}
+.verse { margin: 0; max-width: 820px; }
+.verse-sanskrit {
+  font-family: "Kohinoor Devanagari", "Noto Sans Devanagari", "Mangal", system-ui, sans-serif;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.6;
+  color: var(--accent);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+.verse-sanskrit.hidden { display: none; }
+.verse-text {
+  margin: 0 0 18px;
+  font-size: clamp(24px, 3.4vw, 40px);
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.verse-text::before { content: "“"; opacity: 0.5; }
+.verse-text::after { content: "”"; opacity: 0.5; }
+.verse-ref {
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.verse-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.pill {
+  background: var(--card);
+  border: 1px solid var(--card-brd);
+  color: var(--fg);
+  padding: 9px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s, transform 0.1s, border-color 0.15s;
+}
+.pill:hover { background: rgba(167,139,250,0.18); border-color: var(--accent); }
+.pill:active { transform: scale(0.96); }
+.pill.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
+.pill.is-fav { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+
+/* prayer panel */
+.panel {
+  width: min(560px, calc(100% - 48px));
+  margin: 0 auto 28px;
+  background: var(--card);
+  border: 1px solid var(--card-brd);
+  border-radius: 16px;
+  padding: 16px 18px;
+  backdrop-filter: blur(8px);
+}
+.panel.hidden { display: none; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600; }
+.muted { color: var(--muted); font-weight: 400; font-size: 13px; }
+.prayer-add { display: flex; gap: 8px; margin-bottom: 10px; }
+.prayer-add input {
+  flex: 1;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid var(--card-brd);
+  color: var(--fg);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+[data-theme="light"] .prayer-add input { background: rgba(255,255,255,0.7); }
+.prayer-add input:focus { outline: none; border-color: var(--accent); }
+.prayer-list, .fav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.prayer-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+}
+.prayer-item input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+.prayer-item .txt { flex: 1; font-size: 14px; word-break: break-word; }
+.prayer-item.done .txt { text-decoration: line-through; color: var(--muted); }
+.prayer-item .del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 15px; padding: 2px 6px; border-radius: 6px; }
+.prayer-item .del:hover { color: #ff8a8a; background: rgba(255,0,0,0.08); }
+.prayer-empty { color: var(--muted); font-size: 13px; padding: 6px 2px; }
+
+/* settings drawer */
+.drawer {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex; justify-content: flex-end;
+  z-index: 50;
+}
+.drawer.hidden { display: none; }
+.drawer-panel {
+  width: min(380px, 92vw);
+  height: 100%;
+  background: var(--bg2);
+  border-left: 1px solid var(--card-brd);
+  padding: 22px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.drawer-head { display: flex; justify-content: space-between; align-items: center; }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--muted); }
+.field.check { flex-direction: row; align-items: center; gap: 10px; }
+.field input[type="text"], .field select {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--card-brd);
+  color: var(--fg);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+[data-theme="light"] .field input[type="text"], [data-theme="light"] .field select { background: rgba(255,255,255,0.8); }
+.field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+.field.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.favs-head { font-weight: 600; margin-bottom: 8px; }
+.fav-item { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; padding: 8px 10px; background: rgba(255,255,255,0.04); border-radius: 10px; }
+.fav-item .fav-txt { flex: 1; }
+.fav-item .fav-ref { color: var(--accent); display: block; margin-top: 2px; font-size: 11px; letter-spacing: 0.5px; }
+.fav-item .del { background: none; border: none; color: var(--muted); cursor: pointer; }
+.credit { color: var(--muted); font-size: 12px; line-height: 1.5; margin-top: auto; }
+
+/* first-run welcome */
+.welcome {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 60; padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.welcome.hidden { display: none; }
+.welcome-card {
+  background: var(--bg2);
+  border: 1px solid var(--card-brd);
+  border-radius: 20px;
+  padding: 34px 30px;
+  max-width: 440px; width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.welcome-emoji { font-size: 42px; }
+.welcome-card h1 { margin: 6px 0 4px; font-size: 26px; }
+.welcome-card p { color: var(--muted); margin: 0 0 18px; }
+.welcome-choices { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.choice {
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--card); border: 1px solid var(--card-brd); color: var(--fg);
+  border-radius: 14px; padding: 14px 16px; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+}
+.choice b { font-size: 16px; }
+.choice small { color: var(--muted); font-size: 13px; }
+.choice:hover { border-color: var(--accent); background: rgba(167, 139, 250, 0.15); }
+.choice:active { transform: scale(0.98); }
+.welcome-foot { margin-top: 18px !important; font-size: 13px; }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: var(--accent-ink);
+  padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.toast.hidden { opacity: 0; transform: translateX(-50%) translateY(8px); pointer-events: none; }

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="newtab.css" />
+  </head>
+  <body>
+    <div id="bg"></div>
+
+    <!-- top bar: clock + greeting -->
+    <header class="topbar">
+      <div class="clock" id="clock">—</div>
+      <div class="greeting" id="greeting"></div>
+      <button id="settingsBtn" class="iconbtn" title="Settings" aria-label="Settings">⚙</button>
+    </header>
+
+    <!-- center: the verse -->
+    <main class="stage">
+      <figure class="verse">
+        <div id="verseSanskrit" class="verse-sanskrit hidden"></div>
+        <blockquote id="verseText" class="verse-text">…</blockquote>
+        <figcaption id="verseRef" class="verse-ref"></figcaption>
+      </figure>
+
+      <div class="verse-actions">
+        <button id="favBtn" class="pill" title="Save to favorites">♡ Favorite</button>
+        <button id="copyBtn" class="pill" title="Copy verse">⧉ Copy</button>
+        <button id="shuffleBtn" class="pill" title="Show another verse">↻ Another</button>
+      </div>
+    </main>
+
+    <!-- prayer / intentions list -->
+    <section class="panel prayers" id="prayersPanel">
+      <div class="panel-head">
+        <span>🙏 Prayer list</span>
+        <span class="muted" id="prayerCount"></span>
+      </div>
+      <form id="prayerForm" class="prayer-add">
+        <input id="prayerInput" type="text" placeholder="Add an intention…" autocomplete="off" maxlength="140" />
+        <button type="submit" class="pill primary">Add</button>
+      </form>
+      <ul id="prayerList" class="prayer-list"></ul>
+    </section>
+
+    <!-- first-run welcome chooser -->
+    <div id="welcome" class="welcome hidden">
+      <div class="welcome-card">
+        <div class="welcome-emoji">🙏</div>
+        <h1>Welcome</h1>
+        <p>What would you like to see on each new tab?</p>
+        <div class="welcome-choices">
+          <button class="choice" data-faith="christian"><b>✝️ Bible verses</b><small>King James Version</small></button>
+          <button class="choice" data-faith="hindu"><b>🕉️ Bhagavad Gita</b><small>Sanskrit shlokas + Hindi thoughts</small></button>
+          <button class="choice" data-faith="all"><b>🌸 Both</b><small>a little of each</small></button>
+        </div>
+        <p class="welcome-foot">You can change this anytime in ⚙ Settings.</p>
+      </div>
+    </div>
+
+    <!-- settings drawer -->
+    <div id="settings" class="drawer hidden">
+      <div class="drawer-panel">
+        <div class="drawer-head">
+          <strong>Settings</strong>
+          <button id="closeSettings" class="iconbtn" aria-label="Close">✕</button>
+        </div>
+
+        <label class="field">
+          <span>Your name (for the greeting)</span>
+          <input id="nameInput" type="text" placeholder="optional" maxlength="40" />
+        </label>
+
+        <label class="field">
+          <span>Tradition</span>
+          <select id="faithSelect">
+            <option value="all">Mix (all)</option>
+            <option value="christian">Christian — Bible (KJV)</option>
+            <option value="hindu">Hindu — Gita & thoughts (हिंदी)</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Theme</span>
+          <select id="themeSelect">
+            <option value="auto">Auto (match system)</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+        </label>
+
+        <label class="field check">
+          <input id="sanskritToggle" type="checkbox" />
+          <span>Include Sanskrit shlokas</span>
+        </label>
+
+        <label class="field check">
+          <input id="showPrayers" type="checkbox" />
+          <span>Show prayer list</span>
+        </label>
+
+        <div class="favs" id="favsWrap">
+          <div class="favs-head">Favorites <span class="muted" id="favCount"></span></div>
+          <ul id="favList" class="fav-list"></ul>
+        </div>
+
+        <p class="credit" id="credit">No ads, no tracking — everything stays on your device.</p>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="verses.js"></script>
+    <script src="newtab.js"></script>
+  </body>
+</html>

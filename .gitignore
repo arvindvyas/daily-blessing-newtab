@@ -1,0 +1,9 @@
+# Raw captures include desktop/window clutter — keep them out of the repo.
+assets/raw/
+assets/icon_concepts/
+
+# Build output
+*.zip
+
+# OS
+.DS_Store
